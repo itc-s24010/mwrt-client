@@ -7,6 +7,38 @@
     cursor: pointer;
 }
 
-.button:hover {
-    background-color: #005bb5;
+.button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+
+
+
+
+
+.button_large {
+    padding: 15px 30px;
+    font-size: 1.2em;
+}
+
+.button_small {
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+
+.button_hoverEffect {
+    transition: background-color 0.3s ease;
+}
+
+.button_rounded {
+    border-radius: 25px;
+}
+
+.button_hoverScale:hover {
+    padding: 12px 24px;
+}
+
+.button_transition {
+    transition: padding 0.3s ease;
 }
