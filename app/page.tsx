@@ -3,7 +3,7 @@ import { Screen } from "./_screen/screen";
 
 export default async function Home() {
 
-    const categories = await API.API_Request_Category();
+    const categories = await API.API_Request_Category_List();
     
     return (
         <Screen/>

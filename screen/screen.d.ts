@@ -9,6 +9,8 @@ export type ScreenSelectorCallback<screenId extends string> = (screenId: screenI
 
 
 export type AppScreen<ScreenIds extends string = string> = Screen_Frame_Top_Props & {
+    root?: boolean;
     media: MediaType;
     selectScreen?: (screen: ScreenIds) => void;
+    onReady?: () => void;
 };
