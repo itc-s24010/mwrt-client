@@ -1,0 +1,59 @@
+.container {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.taskInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 0.5rem;
+}
+
+
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin: 0;
+}
+
+
+.memoContainer {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+
+    background-color: #f9f9f9;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 0.5rem;
+}
+
+
+
+.memoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 0.5rem;
+
+}
+
+
+.memoList {
+    display: grid;
+    gap: 1rem;
+    justify-content: center;
+
+    grid-template-columns: repeat(auto-fill, min(600px, 100%));
+
+}

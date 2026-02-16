@@ -1,0 +1,7 @@
+
+.submitButton {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    transition: background-color 0.2s;
+}

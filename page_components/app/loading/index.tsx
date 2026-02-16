@@ -1,15 +1,18 @@
-import { MergeAttributes } from "@/libs/CustomAttribute";
 import styles from "./index.module.css";
-import fillStyles from "@/page_components/screen/fill/index.module.css";
-import { UI_Screen_Fill } from "@/page_components/screen/fill";
+import { FillTypes, UI_Screen_Fill } from "@/page_components/screen/fill";
+
+type Props = React.HTMLAttributes<HTMLElement> & {
+    _type?: FillTypes;
+}
 
 
-export function APP_Loading(props: React.HTMLAttributes<HTMLElement>) {
+export function APP_Loading({children, _type="opaque", ...props}: Props) {
     return (
-        <UI_Screen_Fill {...MergeAttributes(props, { className: fillStyles.opaque })}>
+        <UI_Screen_Fill _type={_type} {...props}>
             <div className={styles.loading}>
                 <div className={styles.spinner}></div>
-                <div className={styles.text}>Loading...</div>
+                <div className={styles.text}>{children ?? "Loading..."}</div>
+                
             </div>
         </UI_Screen_Fill>
     );

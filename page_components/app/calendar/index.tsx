@@ -8,11 +8,12 @@ type CalendarProps = {
     month: number;
     selectedDate?: Date | null;
     onDateClick?: (date: Date) => void;
+    onSelectDate?: (date: Date) => void;
     onMonthChange?: (year: number, month: number) => void;
     tasksWithDates?: Date[];
 };
 
-export function Calendar({ year, month, selectedDate, onDateClick, onMonthChange, tasksWithDates = [] }: CalendarProps) {
+export function Calendar({ year, month, selectedDate, onDateClick, onSelectDate, onMonthChange, tasksWithDates = [] }: CalendarProps) {
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
@@ -48,12 +49,9 @@ export function Calendar({ year, month, selectedDate, onDateClick, onMonthChange
         weeks.push(days.slice(i, i + 7));
     }
 
-    const handleDayClick = (day: number | null) => {
-        if (day && onDateClick) {
-            const clickedDate = new Date(year, month - 1, day);
-            onDateClick(clickedDate);
-        }
-    };
+    function DaytoDate(day: number): Date {
+        return new Date(year, month - 1, day);
+    }
 
     const isSelected = (day: number | null) => {
         if (!day || !selectedDate) return false;
@@ -71,6 +69,16 @@ export function Calendar({ year, month, selectedDate, onDateClick, onMonthChange
                    td.getDate() === dayDate.getDate();
         });
     };
+
+    const getTaskCount = (day: number | null) => {
+        if (!day) return 0;
+        const dayDate = new Date(year, month - 1, day);
+        return tasksWithDates.filter(taskDate => {
+            return taskDate.getFullYear() === dayDate.getFullYear() &&
+                   taskDate.getMonth() === dayDate.getMonth() &&
+                   taskDate.getDate() === dayDate.getDate();
+        }).length;
+    }
 
     const handlePrevMonth = () => {
         if (!onMonthChange) return;
@@ -152,16 +160,27 @@ export function Calendar({ year, month, selectedDate, onDateClick, onMonthChange
             <div className={styles.weeks}>
                 {weeks.map((week, weekIndex) => (
                     <div key={weekIndex} className={styles.week}>
-                        {week.map((day, dayIndex) => (
-                            <div 
-                                key={dayIndex} 
-                                className={`${styles.day} ${isSelected(day) ? styles.selected : ''} ${hasTask(day) ? styles.hasTask : ''}`}
-                                onClick={() => handleDayClick(day)}
-                            >
-                                {day || ''}
-                                {hasTask(day) && <span className={styles.taskDot}>●</span>}
-                            </div>
-                        ))}
+                        {week.map((day, dayIndex) => {
+                            const taskCount = getTaskCount(day);
+                            const ele = (
+                                <div 
+                                    key={dayIndex} 
+                                    className={`${styles.day} ${isSelected(day) ? styles.selected : ''} ${hasTask(day) ? styles.hasTask : ''}`}
+                                    onClick={() => {if (day) onDateClick?.(DaytoDate(day))}}
+                                    onDoubleClick={() => {if (day) onSelectDate?.(DaytoDate(day))}}
+                                >
+                                    {day || ''}
+                                    {
+                                        taskCount > 0 &&
+                                        <>
+                                            <span className={styles.taskCount}>{taskCount}件のタスク</span>
+                                            <span className={styles.taskDot}>●</span>
+                                        </>
+                                    }
+                                </div>
+                            )
+                            return ele;
+                        })}
                     </div>
                 ))}
             </div>

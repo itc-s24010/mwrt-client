@@ -234,7 +234,7 @@ export function Screen_Home({media, backwardLabel, backward, selectScreen, onSel
                     MergeClassNames(
                         styles.homeContainer,
                         MediaClassName(media, {
-                            tablet: styles.mobile,
+                            mobile: styles.mobile,
                         })
                     )
                 }>

@@ -22,8 +22,13 @@
 
 .text {
     margin-top: 16px;
-    font-size: 18px;
-    color: #c0c0c0;
+    font-size: 25px;
+    color: #004fce;
+
+    font-weight: bold;
+    
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+    paint-order: stroke;
     animation: loading-text 1.5s infinite;
 }
 

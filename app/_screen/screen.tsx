@@ -1,17 +1,16 @@
 "use client";
 
 import { MediaType, ResponsiveMedia } from "@/libs/client/responsive";
-import { Controll_APP_Loading } from "@/page_components/app/controll_loading";
+import { Controll_APP_Loading } from "@/page_components/app/control_loading";
 import { ScreenMap } from "@/screen/screen";
 import { useEffect, useState } from "react";
 import { Screen_Home } from "./home/screen";
 import { Screen_Details } from "./details/screen";
 import { Screen_TaskRegister } from "./task_register/screen";
 import { Screen_Timer } from "./timer/screen";
-import { Screen_TaskSearch } from "./task_search/screen";
 import { Screen_TaskDetail } from "./task_detail/screen";
 
-export type ScreenIds = "home" | "details" | "task_register" | "timer" | "task_search" | "task_detail";
+export type ScreenIds = "home" | "details" | "task_register" | "timer" | "task_detail";
 
 export function Screen() {
     const [media, setMedia] = useState<MediaType>("desktop");
@@ -23,9 +22,9 @@ export function Screen() {
 
     useEffect(() => {
         ResponsiveMedia({
-            minWidth:  600,
+            minWidth:  750,
             maxWidth: 1200,
-            minHeight:  400,
+            minHeight:  500,
             maxHeight:  800,
         }, "width", (media) => {
             setMedia(media);
@@ -61,11 +60,6 @@ export function Screen() {
             backward={() => setScreen("home")}
         />,
         "timer": () => <Screen_Timer
-            media={media}
-            selectScreen={setScreen}
-            backward={() => setScreen("home")}
-        />,
-        "task_search": () => <Screen_TaskSearch
             media={media}
             selectScreen={setScreen}
             backward={() => setScreen("home")}

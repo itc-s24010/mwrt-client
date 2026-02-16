@@ -6,7 +6,16 @@
     border-radius: 8px;
     padding: 1rem;
     margin: 0;
+
+    user-select: none;
+    cursor: pointer;
+
     transition: all 0.2s ease;
+}
+
+.container.mobile {
+    justify-content: center;
+    align-items: center;
 }
 
 .container:hover {
@@ -17,10 +26,17 @@
 
 .header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+
+    
     gap: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.header.mobile {
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .taskName {
@@ -29,7 +45,20 @@
     font-weight: 600;
     color: #333;
     flex: 1;
+    width: auto;
 }
+
+.controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+
+
+
+
+
 
 .container h3 {
     margin: 0 0 0.5rem 0;
@@ -45,8 +74,19 @@
 
 .taskInfo {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    
+    padding: 0.5rem;
     gap: 0.25rem;
+}
+
+.taskInfo.mobile {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.spacer {
+    flex: 1;
 }
 
 .category {

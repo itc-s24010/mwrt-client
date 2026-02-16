@@ -1,5 +1,5 @@
 import { API_Request } from "./base";
-import type { DB_Category, DB_Category_ID, DB_Memo, DB_Memo_Raw, DB_Task, DB_Task_ID, DB_Task_Raw } from "./_db";
+import type { DB_Category, DB_Category_ID, DB_Memo, DB_Memo_ID, DB_Memo_Raw, DB_Task, DB_Task_ID, DB_Task_Raw } from "./_db";
 
 
 export type * from "./_db";
@@ -12,11 +12,37 @@ export type * from "./_db";
 export type API_Response_Category = DB_Category[];
 
 
-export const API_Request_Category_List = () => API_Request<undefined, undefined, DB_Category[], DB_Category[]>({method: "GET", path: "/category/list"});
+/**
+ * カテゴリー一覧取得
+ * @returns 
+ */
+export const API_Request_Category_List = () => API_Request<undefined, undefined, DB_Category[], DB_Category[]>({method: "GET", path: "/category"});
 
 
 
-type Task_List_Query = {
+export const API_Request_Category_Add = (name: string) => API_Request<undefined, {name: string}, DB_Category, DB_Category>(
+    {
+        method: "POST",
+        path: "/category",
+        body: {name},
+    }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export type Task_List_Query = {
     /**
      * カテゴリーIDで絞り込み
      */
@@ -30,11 +56,17 @@ type Task_List_Query = {
      */
     lte?: Date;
 }
-export const API_Request_Task_List = (query?: Task_List_Query) => API_Request<Task_List_Query, undefined, DB_Task_Raw[], DB_Task[]>(
+
+/**
+ * タスク一覧取得
+ * @param query 
+ * @returns 
+ */
+export const API_Request_Task_List = (query?: Task_List_Query) => API_Request<Task_List_Query, Task_List_Query, DB_Task_Raw[], DB_Task[]>(
     {
-        method: "GET",
-        path: "/task",
-        query,
+        method: query ? "POST" : "GET",
+        path: query ? "/task/query" : "/task",
+        body: query,
         responseWrap(body) {
             const tasks: DB_Task[] = body.map(RawTask_toFormattedData);
             return tasks;
@@ -45,6 +77,11 @@ export const API_Request_Task_List = (query?: Task_List_Query) => API_Request<Ta
 
 
 
+/**
+ * タスク詳細取得
+ * @param taskId 
+ * @returns 
+ */
 export const API_Request_Task_Detail = (taskId: DB_Task_ID) => API_Request<undefined, undefined, DB_Task_Raw<true>, DB_Task<true>>(
     {
         method: "GET",
@@ -62,6 +99,12 @@ type Task_Add_Body = {
     categoryId: DB_Category_ID;
     scheduledStartAt: Date;
 }
+
+/**
+ * タスク追加
+ * @param data 
+ * @returns 
+ */
 export const API_Request_Task_Add = (data: Task_Add_Body) => API_Request<undefined, toJson<Task_Add_Body>, DB_Task_Raw, DB_Task>(
     {
         method: "POST",
@@ -72,11 +115,15 @@ export const API_Request_Task_Add = (data: Task_Add_Body) => API_Request<undefin
 );
 
 
-
+/**
+ * タスク削除
+ * @param taskId 
+ * @returns 
+ */
 export const API_Request_Task_Delete = (taskId: DB_Task_ID) => API_Request<undefined, undefined, void, void>(
     {
         method: "DELETE",
-        path: `/task/delete/${taskId}`,
+        path: `/task/${taskId}`,
         responseWrap: () => undefined
     }
 );
@@ -86,11 +133,13 @@ export const API_Request_Task_Delete = (taskId: DB_Task_ID) => API_Request<undef
 type Task_Update_Body = {
     name?: string;
     categoryId?: DB_Category_ID;
+    startedAt?: Date | null;
+    endedAt?: Date | null;
 }
 export const API_Request_Task_Update = (taskId: DB_Task_ID, data: Task_Update_Body) => API_Request<undefined, toJson<Task_Update_Body>, DB_Task_Raw, DB_Task>(
     {
         method: "PUT",
-        path: `/task/update/${taskId}`,
+        path: `/task/${taskId}`,
         body: JSON.parse(JSON.stringify(data)),
         responseWrap: RawTask_toFormattedData
     }
@@ -107,7 +156,7 @@ type Memo_List_Query = {
 export const API_Request_Memo_List = (query?: Memo_List_Query) => API_Request<Memo_List_Query, undefined, DB_Memo_Raw[], DB_Memo[]>(
     {
         method: "GET",
-        path: "/memo/list",
+        path: "/memo",
         query
     }
 );
@@ -127,6 +176,24 @@ export const API_Request_Memo_Add = (data: Memo_Add_Body) => API_Request<undefin
     }
 );
 
+
+export const API_Request_Memo_Update = (memoId: DB_Memo_ID, content: string) => API_Request<undefined, {content: string}, DB_Memo_Raw, DB_Memo>(
+    {
+        method: "PUT",
+        path: `/memo/${memoId}`,
+        body: {content},
+        responseWrap: RawMemo_toFormattedData
+    }
+);
+
+
+
+export const API_Request_Memo_Delete = (memoId: DB_Memo_ID) => API_Request<undefined, undefined, void, void>(
+    {
+        method: "DELETE",
+        path: `/memo/${memoId}`
+    }
+);
 
 
 

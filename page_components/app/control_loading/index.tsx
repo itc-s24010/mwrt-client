@@ -7,10 +7,20 @@ import { APP_Loading } from "../loading";
 import styles from "./index.module.css";
 import { useState } from "react";
 import { Element_Controller_Response } from "@/type";
+import { FillTypes } from "@/page_components/screen/fill";
 
-export function Controll_APP_Loading(props: React.HTMLAttributes<HTMLElement>): Element_Controller_Response<Controller> {
+
+
+type Props = React.HTMLAttributes<HTMLElement> & {
+    _type?: FillTypes;
+}
+
+
+
+
+export function Controll_APP_Loading({ _type, ...props}: Props): Element_Controller_Response<Controller> {
     const [className, setClassName] = useState("");
-    const loading = <APP_Loading {...MergeAttributes(props, { className })}/>;
+    const loading = <APP_Loading _type={_type} {...MergeAttributes(props, { className })}/>;
     return {
         element: loading,
         controller: {
